@@ -1,5 +1,4 @@
 import { Telegraf } from "telegraf";
-import { message } from "telegraf/filters";
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -15,8 +14,8 @@ const lastUserMessage: Record<number, number> = {}; // chatId -> messageId
 bot.start((ctx) => ctx.reply("Welcome"));
 bot.help((ctx) =>
   ctx.reply(
-    "https://github.com/Glubin-yep/telegram_bot_group/blob/main/README.md"
-  )
+    "https://github.com/Glubin-yep/telegram_bot_group/blob/main/README.md",
+  ),
 );
 bot.command("ping", (ctx) => ctx.reply("Pong!"));
 
@@ -26,7 +25,7 @@ bot.on("text", async (ctx, next) => {
   const userId = ctx.from?.id;
 
   const isCommand = ctx.message.entities?.some(
-    (e) => e.type === "bot_command" && e.offset === 0
+    (e) => e.type === "bot_command" && e.offset === 0,
   );
 
   console.log("Збережено як останнє повідомлення:", msgId);
@@ -46,7 +45,7 @@ bot.on("text", async (ctx, next) => {
 });
 
 bot.hears("Привіт Добі", (ctx) =>
-  ctx.reply("Радий вітати вас, найпрекрасніший фронтендер на світі")
+  ctx.reply("Радий вітати вас, найпрекрасніший фронтендер на світі"),
 );
 
 bot.hears("🧦", (ctx) => ctx.reply("Ура, тепер Добі вільний"));
@@ -77,7 +76,7 @@ bot.command("groupstats", (ctx) => {
   }
 
   ctx.reply(
-    `${chatName} має ${ctx.message.message_id} повідомлень, які бот зафіксував.`
+    `${chatName} має ${ctx.message.message_id} повідомлень, які бот зафіксував.`,
   );
 });
 bot.command("source", (ctx) => {
