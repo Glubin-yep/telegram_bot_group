@@ -76,7 +76,9 @@ bot.command("groupstats", (ctx) => {
     chatName = "Цей чат";
   }
 
-  ctx.reply(`${chatName} має ${count} повідомлень, які бот зафіксував.`);
+  ctx.reply(
+    `${chatName} має ${ctx.message.message_id} повідомлень, які бот зафіксував.`
+  );
 });
 bot.command("source", (ctx) => {
   ctx.reply("https://github.com/Glubin-yep/telegram_bot_group");
