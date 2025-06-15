@@ -28,7 +28,7 @@ bot.on("text", async (ctx, next) => {
     (e) => e.type === "bot_command" && e.offset === 0,
   );
 
-  console.log("Збережено як останнє повідомлення:", msgId);
+  //console.log("Збережено як останнє повідомлення:", msgId);
   lastUserMessage[chatId] = msgId;
 
   // Підрахунок статистики тут
@@ -44,9 +44,22 @@ bot.on("text", async (ctx, next) => {
   await next();
 });
 
-bot.hears("Привіт Добі", (ctx) =>
-  ctx.reply("Радий вітати вас, найпрекрасніший фронтендер на світі"),
-);
+bot.hears("Привіт Добі", (ctx) => {
+  const userId = ctx.from?.id;
+  const username = ctx.from?.username || ctx.from?.first_name;
+
+  switch (userId) {
+    case 1934396453: // Я
+      ctx.reply("Слава найкращому розробнику всіх часів!");
+      break;
+    case 638208656: //Ден
+      ctx.reply("О, повелителю React і TypeScript, Добі вітає вас поклоном!");
+      break;
+    default:
+      ctx.reply(`Я тебе не знаю а ну киш`);
+      break;
+  }
+});
 
 bot.hears("🧦", (ctx) => ctx.reply("Ура, тепер Добі вільний"));
 
@@ -79,6 +92,7 @@ bot.command("groupstats", (ctx) => {
     `${chatName} має ${ctx.message.message_id} повідомлень, які бот зафіксував.`,
   );
 });
+
 bot.command("source", (ctx) => {
   ctx.reply("https://github.com/Glubin-yep/telegram_bot_group");
 });
@@ -96,7 +110,7 @@ bot.command("ruina", async (ctx) => {
 
   try {
     await ctx.telegram.deleteMessage(chatId, msgId);
-    await ctx.reply("Останнє повідомлення видалено.");
+    await ctx.reply("Так, пане! Добі вже тре підлогу і тре чат 🧽");
   } catch (e) {
     console.error("Помилка при видаленні:", e);
     ctx.reply("Не вдалося видалити повідомлення. Перевірте права або формат.");
