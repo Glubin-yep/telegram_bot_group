@@ -11,10 +11,11 @@
   "keywords": [],
   "author": "",
   "license": "MIT",
- "type": "commonjs",
+  "type": "commonjs",
   "dependencies": {
     "@babel/plugin-proposal-decorators": "^7.27.1",
     "@typescript-eslint/eslint-plugin": "^8.34.0",
+    "axios": "^1.10.0",
     "dotenv": "^16.5.0",
     "eslint": "^9.29.0",
     "eslint-config-prettier": "^10.1.5",

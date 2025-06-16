@@ -1,5 +1,6 @@
 import { Telegraf } from "telegraf";
 import * as dotenv from "dotenv";
+import { getPlayerSummary } from "./steamhelper";
 
 dotenv.config();
 
@@ -10,6 +11,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN as string);
 const userStats: Record<number, number> = {}; // userId -> count
 const groupStats: Record<number, number> = {}; // chatId -> count
 const lastUserMessage: Record<number, number> = {}; // chatId -> messageId
+
+const steamUsers: Record<string, string> = {
+  // Telegram username (без @) -> SteamID64
+  Very_Trouble: "76561198829066528",
+  maks5667: "76561198144974952",
+  denysJSE: "76561199298687616",
+};
 
 bot.start((ctx) => ctx.reply("Welcome"));
 bot.help((ctx) =>
@@ -115,6 +123,34 @@ bot.command("ruina", async (ctx) => {
     console.error("Помилка при видаленні:", e);
     ctx.reply("Не вдалося видалити повідомлення. Перевірте права або формат.");
   }
+});
+
+// Команда бота
+bot.command("steam", async (ctx) => {
+  const args = ctx.message.text.split(" ");
+  if (args.length < 2) {
+    return ctx.reply("Використання: /steam @telegram_username");
+  }
+
+  const username = args[1].replace("@", "").trim();
+
+  const steamId = steamUsers[username];
+  if (!steamId) {
+    return ctx.reply("❌ Користувача не знайдено у локальній базі.");
+  }
+
+  const status = await getPlayerSummary(steamId);
+
+  if (typeof status === "string") {
+    // Якщо повернулося просто повідомлення (помилка або користувач не знайдений)
+    return ctx.reply(status);
+  }
+
+  // Якщо повернувся об'єкт із photoUrl і caption — надсилаємо фото з підписом
+  return ctx.replyWithPhoto(status.photoUrl, {
+    caption: status.caption,
+    parse_mode: "HTML",
+  });
 });
 
 bot.launch();
