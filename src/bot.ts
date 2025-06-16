@@ -8,6 +8,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN as string);
 
 // Памʼять для статистики та останнього повідомлення
 // TODO замінити на БД
+const activeChats = new Set<number>();
 const userStats: Record<number, number> = {}; // userId -> count
 const groupStats: Record<number, number> = {}; // chatId -> count
 const lastUserMessage: Record<number, number> = {}; // chatId -> messageId
@@ -31,6 +32,7 @@ bot.on("text", async (ctx, next) => {
   const chatId = ctx.chat.id;
   const msgId = ctx.message.message_id;
   const userId = ctx.from?.id;
+  activeChats.add(ctx.chat.id);
 
   const isCommand = ctx.message.entities?.some(
     (e) => e.type === "bot_command" && e.offset === 0,
@@ -107,7 +109,7 @@ bot.command("source", (ctx) => {
 
 // Команда /ruina — видаляє останнє повідомлення в чаті
 bot.command("ruina", async (ctx) => {
-  console.log("Команда ruina викликана");
+  //console.log(ctx.chat.id);
 
   const chatId = ctx.chat.id;
   const msgId = lastUserMessage[chatId];
@@ -155,5 +157,26 @@ bot.command("steam", async (ctx) => {
 
 bot.launch();
 
-process.once("SIGINT", () => bot.stop("SIGINT"));
-process.once("SIGTERM", () => bot.stop("SIGTERM"));
+async function shutdownBot() {
+  console.log("Отримано сигнал завершення роботи, надсилаю 'бб'...");
+
+  const shutdownChatId = -1002779239533;
+
+  try {
+    await bot.telegram.sendMessage(shutdownChatId, "Іду спатки 👋");
+  } catch (error) {
+    console.error("Не вдалося надіслати повідомлення:", error);
+  } finally {
+    console.log("Завершую роботу бота...");
+    await bot.stop();
+    process.exit(0);
+  }
+}
+
+process.once("SIGINT", () => {
+  shutdownBot();
+});
+
+process.once("SIGTERM", () => {
+  shutdownBot();
+});
