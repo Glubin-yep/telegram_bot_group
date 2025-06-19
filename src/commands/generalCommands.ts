@@ -13,8 +13,8 @@ export function registerGeneralCommands(bot: Telegraf) {
     );
   });
 
-  // /alive — перевірка працездатності (замість ping)
-  bot.command("alive", (ctx) => {
+  // /ping — перевірка працездатності (замість ping)
+  bot.command("ping", (ctx) => {
     ctx.reply("Я тут! Усе в порядку 👋");
   });
 
