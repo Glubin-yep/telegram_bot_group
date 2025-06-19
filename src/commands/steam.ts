@@ -1,6 +1,6 @@
 import { Telegraf } from "telegraf";
-import { getPlayerSummary } from "../steamhelper";
 import { _steamUsers } from "../state/stats";
+import { getPlayerSummary } from "../services/steamhelper";
 
 export default function steam(bot: Telegraf) {
   bot.command("steam", async (ctx) => {
