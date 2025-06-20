@@ -8,7 +8,6 @@ import { registerGeneralCommands } from "./commands/generalCommands";
 dotenv.config();
 export const bot = new Telegraf(process.env.BOT_TOKEN as string);
 
-// Реєстрація усіх команд, hears тощо
 registerCommands(bot);
 registerHears(bot);
 registerTextHandler(bot);

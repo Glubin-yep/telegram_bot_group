@@ -1,25 +1,45 @@
 import { Telegraf } from "telegraf";
-import {
-  _activeChats,
-  _lastUserMessage,
-  _userStats,
-  _groupStats,
-} from "../state/stats";
+import { AppDataSource } from "../db";
+import { User } from "../entities/User";
+import { ChatUserStat } from "../entities/ChatUserStat";
 
 export function registerTextHandler(bot: Telegraf) {
   bot.on("text", async (ctx, next) => {
-    const chatId = ctx.chat.id;
-    const msgId = ctx.message.message_id;
     const userId = ctx.from?.id;
+    const username = ctx.from?.username || ctx.from?.first_name;
+    const chatId = ctx.chat.id.toString();
 
-    _activeChats.add(chatId);
-    _lastUserMessage[chatId] = msgId;
-
-    if (userId) {
-      _userStats[userId] = (_userStats[userId] || 0) + 1;
+    if (!userId || !chatId) {
+      return next();
     }
 
-    _groupStats[chatId] = (_groupStats[chatId] || 0) + 1;
+    const userRepository = AppDataSource.getRepository(User);
+    const chatUserStatRepository = AppDataSource.getRepository(ChatUserStat);
+
+    let user = await userRepository.findOneBy({ telegramId: userId });
+    if (!user) {
+      user = userRepository.create({
+        telegramId: userId,
+        username,
+      });
+      await userRepository.save(user);
+    }
+
+    let chatUserStat = await chatUserStatRepository.findOne({
+      where: { user: { id: user.id }, chatId },
+    });
+
+    if (!chatUserStat) {
+      chatUserStat = chatUserStatRepository.create({
+        user,
+        chatId,
+        messageCount: 1,
+      });
+    } else {
+      chatUserStat.messageCount++;
+    }
+
+    await chatUserStatRepository.save(chatUserStat);
 
     await next();
   });

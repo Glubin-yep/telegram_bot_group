@@ -1,5 +1,5 @@
-export const _activeChats = new Set<number>();
-export const _userStats: Record<number, number> = {};
+//export const _activeChats = new Set<number>();
+//export const _userStats: Record<number, number> = {};
 export const _groupStats: Record<number, number> = {};
 export const _lastUserMessage: Record<number, number> = {};
 export const _steamUsers: Record<string, string> = {
