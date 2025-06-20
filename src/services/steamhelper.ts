@@ -34,6 +34,6 @@ export async function getPlayerSummary(
     }
   } catch (error) {
     console.error("Помилка при отриманні статусу:", error);
-    return "⚠️ Не вдалося отримати статус.";
+    return `⚠️ Не вдалося отримати статус. (${error})`;
   }
 }
