@@ -5,26 +5,28 @@ import { ChatUserStat } from "../entities/ChatUserStat";
 
 export function registerTextHandler(bot: Telegraf) {
   bot.on("text", async (ctx, next) => {
-    const userId = ctx.from?.id;
+    const telegramId = ctx.from?.id;
     const username = ctx.from?.username || ctx.from?.first_name;
     const chatId = ctx.chat.id.toString();
 
-    if (!userId || !chatId) {
+    if (!telegramId || !chatId) {
       return next();
     }
 
     const userRepository = AppDataSource.getRepository(User);
     const chatUserStatRepository = AppDataSource.getRepository(ChatUserStat);
 
-    let user = await userRepository.findOneBy({ telegramId: userId });
+    // Знаходимо користувача за telegramId
+    let user = await userRepository.findOneBy({ telegramId });
     if (!user) {
       user = userRepository.create({
-        telegramId: userId,
+        telegramId,
         username,
       });
       await userRepository.save(user);
     }
 
+    // Знаходимо статистику чату для конкретного user.id
     let chatUserStat = await chatUserStatRepository.findOne({
       where: { user: { id: user.id }, chatId },
     });
@@ -35,11 +37,11 @@ export function registerTextHandler(bot: Telegraf) {
         chatId,
         messageCount: 1,
       });
+      await chatUserStatRepository.save(chatUserStat);
     } else {
-      chatUserStat.messageCount++;
+      chatUserStat.messageCount += 1;
+      await chatUserStatRepository.save(chatUserStat);
     }
-
-    await chatUserStatRepository.save(chatUserStat);
 
     await next();
   });
