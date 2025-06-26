@@ -21,4 +21,7 @@ export class ChatUserStat {
 
   @Column({ default: 0 })
   messageCount: number;
+
+  @Column({ default: 0 })
+  badWordCount: number;
 }
