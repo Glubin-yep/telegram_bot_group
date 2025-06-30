@@ -7,6 +7,7 @@ import { registerGeneralCommands } from "./commands/generalCommands";
 import fs from "fs";
 import path from "path";
 import { registerBadWordsHandler } from "./handlers/badWordsHandler";
+import { registerMcStatusCommand } from "./commands/minecraftServer";
 
 dotenv.config();
 
@@ -24,3 +25,4 @@ registerHears(bot);
 registerTextHandler(bot);
 registerGeneralCommands(bot);
 registerBadWordsHandler(bot);
+registerMcStatusCommand(bot);
