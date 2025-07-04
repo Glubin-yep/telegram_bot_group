@@ -39,32 +39,42 @@ const naughtyReplies = [
   "⚠️ Warning: вхідний трафік містить заборонені дані, виконується drop.",
   "🚫 Пакет твоїх слів відхилено через політику фільтрації.",
   "⚔️ Боги хаосу схвалюють твої слова",
+  "🛡️Будь обережніший зі словами довакін",
+  "⚡Використання заклять поза хогвардсои заборонене Поттер",
+  "☠️Дворфи запишуть це в книгу образ",
 ];
 
 function getRandomReply() {
   return naughtyReplies[Math.floor(Math.random() * naughtyReplies.length)];
 }
 
-function normalize(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[@aа]/g, "а")
-    .replace(/[еєe]/g, "е")
-    .replace(/[iі1!|]/g, "і")
-    .replace(/[oо0]/g, "о")
-    .replace(/[cс]/g, "с")
-    .replace(/[pр]/g, "р")
-    .replace(/[yу]/g, "у")
-    .replace(/[xх]/g, "х")
-    .replace(/[^a-zа-яёїєґ0-9]/gi, "") // видаляє сміття
-    .replace(/(.)\1{2,}/g, "$1"); // стискає повтори
+function normalizeWord(text: string): string {
+  return (
+    text
+      .toLowerCase()
+      .replace(/[@aа]/g, "а")
+      .replace(/[еєe]/g, "е")
+      .replace(/[iі1!|]/g, "і")
+      .replace(/[oо0]/g, "о")
+      .replace(/[cс]/g, "с")
+      .replace(/[pр]/g, "р")
+      .replace(/[yу]/g, "у")
+      .replace(/[xх]/g, "х")
+      // Залишаємо пунктуацію для перевірки
+      .replace(/(.)\1{2,}/g, "$1")
+  ); // стискаємо повтори
 }
 
-// Перевірка
 function containsBadWord(text: string): boolean {
-  const normalized = normalize(text);
+  // нижній регістр, але не видаляємо пунктуацію
+  const lowered = text.toLowerCase();
+
   for (const badWord of BAD_WORDS) {
-    if (normalized.includes(badWord)) {
+    const pattern = new RegExp(
+      `(^|\\s|[!?,.():;"'-])${badWord}([!?,.():;"'-]|\\s|$)`,
+      "iu",
+    );
+    if (pattern.test(lowered)) {
       return true;
     }
   }
