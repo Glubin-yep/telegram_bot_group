@@ -38,10 +38,37 @@ const naughtyReplies = [
   "🔒 Firewall активовано — твоя лайка заблокована.",
   "⚠️ Warning: вхідний трафік містить заборонені дані, виконується drop.",
   "🚫 Пакет твоїх слів відхилено через політику фільтрації.",
+  "⚔️ Боги хаосу схвалюють твої слова",
 ];
 
 function getRandomReply() {
   return naughtyReplies[Math.floor(Math.random() * naughtyReplies.length)];
+}
+
+function normalize(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[@aа]/g, "а")
+    .replace(/[еєe]/g, "е")
+    .replace(/[iі1!|]/g, "і")
+    .replace(/[oо0]/g, "о")
+    .replace(/[cс]/g, "с")
+    .replace(/[pр]/g, "р")
+    .replace(/[yу]/g, "у")
+    .replace(/[xх]/g, "х")
+    .replace(/[^a-zа-яёїєґ0-9]/gi, "") // видаляє сміття
+    .replace(/(.)\1{2,}/g, "$1"); // стискає повтори
+}
+
+// Перевірка
+function containsBadWord(text: string): boolean {
+  const normalized = normalize(text);
+  for (const badWord of BAD_WORDS) {
+    if (normalized.includes(badWord)) {
+      return true;
+    }
+  }
+  return false;
 }
 
 export function registerBadWordsHandler(bot: Telegraf) {
@@ -55,11 +82,7 @@ export function registerBadWordsHandler(bot: Telegraf) {
       return next();
     }
 
-    // Перевірка
-    const containsBadWord = text
-      .split(/\s+/)
-      .some((word) => BAD_WORDS.has(word));
-    if (!containsBadWord) {
+    if (!containsBadWord(text)) {
       return next();
     }
 
