@@ -23,8 +23,7 @@ export function registerHears(bot: Telegraf) {
   });
 
   bot.hears("🧦", (ctx) => {
-    const photoUrl =
-      "https://static.wikia.nocookie.net/harrypotter/images/e/e7/%D0%94%D0%BE%D0%B1%D0%B8_%D0%B2_%D0%B1%D0%BE%D0%BB%D1%8C%D0%BD%D0%B8%D1%87%D0%BD%D0%BE%D0%BC_%D0%BA%D1%80%D1%8B%D0%BB%D0%B5.jpg/revision/latest/scale-to-width-down/250?cb=20130526075504&path-prefix=ru";
+    const photoUrl = "https://t1.ua/photos/articles/2019/06/28863_1_1097.jpg";
     const caption = "Ура, тепер Добі вільний! 🧦";
 
     return ctx.replyWithPhoto(photoUrl, {
