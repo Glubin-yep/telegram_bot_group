@@ -8,6 +8,7 @@ import fs from "fs";
 import path from "path";
 import { registerBadWordsHandler } from "./handlers/badWordsHandler";
 import { registerMcStatusCommand } from "./commands/minecraftServer";
+import { registerTriggerWordsHandler } from "./handlers/registerTriggerWordsHandler";
 
 dotenv.config();
 
@@ -20,9 +21,18 @@ export const BAD_WORDS: Set<string> = new Set(
     .filter(Boolean), // видаляємо порожні рядки
 );
 
+export const TRIGGER_WORDS: Set<string> = new Set(
+  fs
+    .readFileSync(path.join(__dirname, "constants/triggerWords.txt"), "utf-8")
+    .split(/\r?\n/)
+    .map((line) => line.trim().toLowerCase())
+    .filter(Boolean), // видаляємо порожні рядки
+);
+
 registerCommands(bot);
 registerHears(bot);
 registerTextHandler(bot);
 registerGeneralCommands(bot);
 registerBadWordsHandler(bot);
 registerMcStatusCommand(bot);
+registerTriggerWordsHandler(bot);
