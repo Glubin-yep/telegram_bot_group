@@ -48,23 +48,6 @@ function getRandomReply() {
   return naughtyReplies[Math.floor(Math.random() * naughtyReplies.length)];
 }
 
-function normalizeWord(text: string): string {
-  return (
-    text
-      .toLowerCase()
-      .replace(/[@aа]/g, "а")
-      .replace(/[еєe]/g, "е")
-      .replace(/[iі1!|]/g, "і")
-      .replace(/[oо0]/g, "о")
-      .replace(/[cс]/g, "с")
-      .replace(/[pр]/g, "р")
-      .replace(/[yу]/g, "у")
-      .replace(/[xх]/g, "х")
-      // Залишаємо пунктуацію для перевірки
-      .replace(/(.)\1{2,}/g, "$1")
-  ); // стискаємо повтори
-}
-
 function containsBadWord(text: string): boolean {
   // нижній регістр, але не видаляємо пунктуацію
   const lowered = text.toLowerCase();
@@ -109,6 +92,7 @@ export function registerBadWordsHandler(bot: Telegraf) {
     let chatUserStat = await chatUserStatRepository.findOne({
       where: { user, chatId },
     });
+
     if (!chatUserStat) {
       chatUserStat = chatUserStatRepository.create({
         user,
