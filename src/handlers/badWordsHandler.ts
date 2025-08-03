@@ -1,8 +1,8 @@
-import { BAD_WORDS } from "../bot"; // або шлях, куди експортували
 import { Telegraf } from "telegraf";
 import { AppDataSource } from "../db";
 import { ChatUserStat } from "../entities/ChatUserStat";
 import { User } from "../entities/User";
+import { BAD_WORDS } from "../constants/wordLists";
 
 const naughtyReplies = [
   "🌚 Добі почув — Добі запам’ятав. Чекай листа від сови.",
@@ -49,7 +49,6 @@ function getRandomReply() {
 }
 
 function containsBadWord(text: string): boolean {
-  // нижній регістр, але не видаляємо пунктуацію
   const lowered = text.toLowerCase();
 
   for (const badWord of BAD_WORDS) {

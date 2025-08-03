@@ -1,4 +1,3 @@
-// eslint.config.js
 import tsESLint from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
 import js from '@eslint/js';
@@ -11,6 +10,14 @@ export default [
             "@typescript-eslint": tsESLint
         },
         languageOptions: {
+            globals: {
+                process: "readonly",
+                __dirname: "readonly",
+                __filename: "readonly",
+                module: "readonly",
+                require: "readonly",
+                console: "readonly",
+            },
             parser: tsParser,
             parserOptions: {
                 project: true,
@@ -22,9 +29,10 @@ export default [
             "@typescript-eslint/no-empty-function": "error",
             "@typescript-eslint/no-explicit-any": "warn",
             "@typescript-eslint/no-unused-vars": "warn",
-            "no-console": "warn",
+            "no-console": "off",
             "prefer-const": "error",
             "semi": ["error", "always"]
+
         }
     },
     {
