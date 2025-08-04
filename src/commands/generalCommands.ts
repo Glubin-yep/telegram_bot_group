@@ -1,33 +1,24 @@
 import { Telegraf } from "telegraf";
+import { sendMessage } from "../services/messageService";
 
 export function registerGeneralCommands(bot: Telegraf) {
   bot.command("start", (ctx) => {
-    ctx.reply("Welcome! Я Добі — ваш вірний помічник 🧦");
+    const text = "Welcome! Я Добі — ваш вірний помічник 🧦";
+    sendMessage(ctx, text);
   });
 
   bot.command("help", (ctx) => {
-    ctx.reply(
-      "https://github.com/Glubin-yep/telegram_bot_group/blob/main/README.md",
-    );
+    const text = "https://github.com/Glubin-yep/telegram_bot_group/blob/main/README.md";
+    sendMessage(ctx, text);
   });
 
   bot.command("ping", async (ctx) => {
-    const start = Date.now();
-
-    const message = await ctx.reply("Перевірка...");
-
-    const end = Date.now();
-    const latency = end - start;
-
-    await ctx.telegram.editMessageText(
-      ctx.chat.id,
-      message.message_id,
-      undefined,
-      `Я тут! Усе в порядку 👋\nЧас обробки: ${latency} мс`
-    );
+    const text = "Я тут! Усе в порядку 👋";
+    sendMessage(ctx, text);
   });
 
   bot.command("source", (ctx) => {
-    ctx.reply("https://github.com/Glubin-yep/telegram_bot_group");
+    const text = "https://github.com/Glubin-yep/telegram_bot_group";
+    sendMessage(ctx, text);
   });
 }

@@ -1,4 +1,5 @@
 import { Telegraf } from "telegraf";
+import { sendMessage } from "../services/messageService";
 
 export default function groupStats(bot: Telegraf) {
   bot.command("groupstats", (ctx) => {
@@ -12,8 +13,7 @@ export default function groupStats(bot: Telegraf) {
       chatName = "Цей чат";
     }
 
-    ctx.reply(
-      `${chatName} має ${ctx.message.message_id} повідомлень, які бот зафіксував.`,
-    );
+    const text = `${chatName} має ${ctx.message.message_id} повідомлень, які бот зафіксував.`;
+    sendMessage(ctx, text);
   });
 }

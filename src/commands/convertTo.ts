@@ -1,4 +1,5 @@
 import { Telegraf } from "telegraf";
+import { sendMessage } from "../services/messageService";
 
 export function ConvertToBinery(bot: Telegraf) {
     bot.command("convertToBin", async (ctx) => {
@@ -11,8 +12,7 @@ export function ConvertToBinery(bot: Telegraf) {
 
         const bin = text.split('').map((char) => char.charCodeAt(0).toString(2)).join(' ');
 
-        return ctx.reply(bin);
-
+        sendMessage(ctx, bin);
     });
 
     bot.command("convertBinToText", async (ctx) => {
@@ -29,7 +29,7 @@ export function ConvertToBinery(bot: Telegraf) {
                 .map(bin => String.fromCharCode(parseInt(bin, 2)))
                 .join("");
 
-            return ctx.reply(text);
+            return sendMessage(ctx, text);
         } catch (error) {
             console.error("Помилка при перетворенні бінарного коду:", error);
             return ctx.reply("Помилка при перетворенні. Переконайтеся, що введено коректний бінарний код.");

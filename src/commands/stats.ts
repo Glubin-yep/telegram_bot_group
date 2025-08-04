@@ -2,6 +2,7 @@ import { Telegraf } from "telegraf";
 import { User } from "../entities/User";
 import { AppDataSource } from "../db";
 import { ChatUserStat } from "../entities/ChatUserStat";
+import { sendMessage } from "../services/messageService";
 
 export default function stats(bot: Telegraf) {
   bot.command("stats", async (ctx) => {
@@ -10,7 +11,7 @@ export default function stats(bot: Telegraf) {
     const chatId = ctx.chat.id.toString();
 
     if (!userId || !chatId) {
-      return ctx.reply("Не вдалося визначити ваш ID або чат.");
+      return sendMessage(ctx, "Не вдалося визначити ваш ID або чат.");
     }
 
     try {
@@ -19,7 +20,7 @@ export default function stats(bot: Telegraf) {
 
       const user = await userRepository.findOneBy({ telegramId: userId });
       if (!user) {
-        return ctx.reply(`${username}, вас немає в базі даних.`);
+        return sendMessage(ctx, `${username}, вас немає в базі даних.`);
       }
 
       const chatUserStat = await chatUserStatRepository.findOne({
@@ -27,17 +28,17 @@ export default function stats(bot: Telegraf) {
       });
 
       if (!chatUserStat) {
-        return ctx.reply(
+        return sendMessage(ctx,
           `${username}, ви ще не надсилали повідомлень у цьому чаті.`,
         );
       }
 
-      ctx.reply(
+      sendMessage(ctx,
         `${username}, ви надіслали ${chatUserStat.messageCount} повідомлень у цьому чаті. З них не цензурних ${chatUserStat.badWordCount}!`,
       );
     } catch (error) {
       console.error("Помилка при отриманні статистики:", error);
-      ctx.reply("Виникла помилка при отриманні статистики.");
+      sendMessage(ctx, "Виникла помилка при отриманні статистики.");
     }
   });
 }
