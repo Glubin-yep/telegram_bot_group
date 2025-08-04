@@ -7,6 +7,7 @@ import { sendJoke } from "./joke";
 import { ConvertToBinery } from "./convertTo";
 import { registerMcStatusCommand } from "./minecraftServer";
 import { registerGeneralCommands } from "./generalCommands";
+import { sendMeme } from "./meme";
 
 export default function BotCommandInitializer(bot: Telegraf) {
   registerGeneralCommands(bot);
@@ -17,4 +18,5 @@ export default function BotCommandInitializer(bot: Telegraf) {
   sendJoke(bot);
   ConvertToBinery(bot);
   registerMcStatusCommand(bot);
+  sendMeme(bot);
 }

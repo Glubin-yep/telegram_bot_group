@@ -22,7 +22,7 @@ export async function sendMessage(
     const latency = Date.now() - start;
 
     const formattedText = [
-        `*Добі виконав команду господара*`,
+        `*Добі виконав команду господаря*`,
         "",
         escapeMarkdown(textMessage),
         "",
