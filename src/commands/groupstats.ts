@@ -1,11 +1,7 @@
 import { Telegraf } from "telegraf";
-import { _groupStats } from "../state/stats";
 
 export default function groupStats(bot: Telegraf) {
   bot.command("groupstats", (ctx) => {
-    const chatId = ctx.chat.id;
-    const count = _groupStats[chatId] || 0;
-
     let chatName: string;
 
     if ("title" in ctx.chat) {

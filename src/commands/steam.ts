@@ -19,7 +19,6 @@ export default function steam(bot: Telegraf) {
     const status = await getPlayerSummary(steamId);
 
     if (typeof status === "string") {
-      // Якщо повернулося просто повідомлення (помилка або користувач не знайдений)
       return ctx.reply(status);
     }
 

@@ -31,6 +31,7 @@ export function ConvertToBinery(bot: Telegraf) {
 
             return ctx.reply(text);
         } catch (error) {
+            console.error("Помилка при перетворенні бінарного коду:", error);
             return ctx.reply("Помилка при перетворенні. Переконайтеся, що введено коректний бінарний код.");
         }
     });

@@ -19,13 +19,13 @@ export function registerMcStatusCommand(bot: Telegraf) {
 
       await ctx.replyWithMarkdownV2(
         `🟢 Сервер працює\\!\n\n` +
-          `*IP:* \`${escapeMarkdown(ip)}:${port}\`\n` +
-          `*Опис:* ${escapeMarkdown(response.motd.clean)}\n` +
-          `*Гравці:* ${response.players.online} / ${response.players.max}\n` +
-          `*Версія:* ${escapeMarkdown(response.version.name)}`,
+        `*IP:* \`${escapeMarkdown(ip)}:${port}\`\n` +
+        `*Опис:* ${escapeMarkdown(response.motd.clean)}\n` +
+        `*Гравці:* ${response.players.online} / ${response.players.max}\n` +
+        `*Версія:* ${escapeMarkdown(response.version.name)}`,
       );
     } catch (error) {
-      console.error(error);
+      console.log(error);
       await ctx.reply(
         `🔴 Сервер \`${ip}:${port}\` недоступний або не відповідає.`,
       );

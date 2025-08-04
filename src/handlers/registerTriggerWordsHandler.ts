@@ -1,5 +1,5 @@
 import { Telegraf } from "telegraf";
-import { TRIGGER_WORDS } from "../bot";
+import { TRIGGER_WORDS } from "../constants/wordLists";
 
 const responses = [
   "🚨 Ключове слово активовано. Відкриваю портали...",
