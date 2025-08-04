@@ -24,12 +24,12 @@ export async function getPlayerSummary(
     if (player.gameextrainfo) {
       return {
         photoUrl: player.avatarfull,
-        caption: `🎮 <b>${player.personaname}</b>\nЗараз грає в: <i>${player.gameextrainfo}</i>`,
+        caption: `🎮 ${player.personaname}\n Зараз грає в: ${player.gameextrainfo}`,
       };
     } else {
       return {
         photoUrl: player.avatarfull,
-        caption: `👤 <b>${player.personaname}</b> наразі не грає.`,
+        caption: `👤 ${player.personaname} наразі не грає.`,
       };
     }
   } catch (error) {

@@ -1,16 +1,11 @@
 import { Telegraf } from "telegraf";
 import { getRandomJoke } from "../services/jokeservice";
+import { sendMessage } from "../services/messageService";
 
-export async function getJoke(bot: Telegraf, chatId: string) {
+export async function sendJoke(bot: Telegraf) {
   const joke = await getRandomJoke();
-  await bot.telegram.sendMessage(chatId, `😂 Жарт години:\n\n${joke}`);
-}
 
-export function sendJoke(bot: Telegraf) {
   bot.command("joke", (ctx) => {
-    const chatId = ctx.chat?.id?.toString();
-    if (chatId) {
-      getJoke(bot, chatId);
-    }
+    sendMessage(ctx, joke);
   });
 }
