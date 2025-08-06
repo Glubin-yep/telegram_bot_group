@@ -13,7 +13,8 @@ export default function groupStats(bot: Telegraf) {
       chatName = "Цей чат";
     }
 
-    const text = `${chatName} має ${ctx.message.message_id} повідомлень, які бот зафіксував.`;
+    const text = `📈 Добі повідомляє: у ${chatName} вже цілих ${ctx.message.message_id} повідомлень! Якщо так далі піде, я почну просити бонус за таку роботу! 🧦`;
+
     sendMessage(ctx, text);
   });
 }
