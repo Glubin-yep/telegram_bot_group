@@ -6,13 +6,8 @@ export function sendMeme(bot: Telegraf) {
     bot.command("meme", async (ctx) => {
         const meme = await getRandomMeme();
 
-        const text = `
-        🖼 ${meme.title}\n
-        📛Subreddit: ${meme.subreddit}\n 
-        👤Автор: ${meme.author}\n
-        👍 ${meme.ups} upvotes\n 
-        🌐Пост на Reddit: "${meme.postLink}"\n
-        🔞NSFW: ${meme.nsfw ? "Так" : "Ні"}\n`;
+        const text = `📛Subreddit: ${meme.subreddit}`;
+
 
         await sendMessage(ctx, text, meme.url); // meme.url — посилання на зображення
     });
