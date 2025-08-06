@@ -7,14 +7,15 @@ function escapeMarkdown(text: string): string {
 export async function sendMessage(
     ctx: Context,
     textMessage: string,
-    photoUrl?: string
+    photoUrl?: string,
 ) {
+    const start = ctx.state?.startTime ?? Date.now();
+
     if (!ctx.chat) {
         console.log("Can't find chat id");
         return;
     }
 
-    const start = Date.now();
     const processingMessage = await ctx.reply(escapeMarkdown("⏳ Обробка..."), {
         parse_mode: "MarkdownV2"
     });
@@ -26,14 +27,11 @@ export async function sendMessage(
         "",
         escapeMarkdown(textMessage),
         "",
-        `⏱️ *Час обробки:* \`${latency} мс\``,
+        `⏱️ *Час обробки:* \`${(latency / 1000).toFixed(2)} s\``,
     ].join("\n");
 
     if (photoUrl) {
-        // Видаляємо "⏳ Обробка..." повідомлення
         await ctx.telegram.deleteMessage(ctx.chat.id, processingMessage.message_id);
-
-        // Надсилаємо фото з підписом
         return ctx.telegram.sendPhoto(ctx.chat.id, photoUrl, {
             caption: formattedText,
             parse_mode: "MarkdownV2"
@@ -48,3 +46,4 @@ export async function sendMessage(
         { parse_mode: "MarkdownV2" }
     );
 }
+
