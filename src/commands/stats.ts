@@ -34,7 +34,7 @@ export default function stats(bot: Telegraf) {
       }
 
       sendMessage(ctx,
-        `${username}, ви надіслали ${chatUserStat.messageCount} повідомлень у цьому чаті. З них не цензурних ${chatUserStat.badWordCount}!`,
+        `${username}, ти відправив ${chatUserStat.messageCount} меседжів.\n З них ${chatUserStat.badWordCount} — з лайкою. Добі це фіксує. Добі розчарований. 😔🧦`,
       );
     } catch (error) {
       console.error("Помилка при отриманні статистики:", error);

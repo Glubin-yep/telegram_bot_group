@@ -15,7 +15,7 @@ export function registerMcStatusCommand(bot: Telegraf) {
     }
 
     try {
-      const response = await status(ip, port, { timeout: 15000 });
+      const response = await status(ip, port, { timeout: 1000 });
 
       const text =
         `🟢 Сервер працює! \n` +
