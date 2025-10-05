@@ -8,6 +8,8 @@ import { ConvertToBinery } from "./convertTo";
 import { registerMcStatusCommand } from "./minecraftServer";
 import { registerGeneralCommands } from "./generalCommands";
 import { sendMeme } from "./meme";
+import { sendFortune } from "./fortunes";
+import { sendHoroscopes } from "./horoscopes";
 
 export default function BotCommandInitializer(bot: Telegraf) {
   registerGeneralCommands(bot);
@@ -19,4 +21,6 @@ export default function BotCommandInitializer(bot: Telegraf) {
   ConvertToBinery(bot);
   registerMcStatusCommand(bot);
   sendMeme(bot);
+  sendFortune(bot);
+  sendHoroscopes(bot);
 }

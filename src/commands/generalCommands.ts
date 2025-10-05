@@ -49,4 +49,9 @@ export function registerGeneralCommands(bot: Telegraf) {
 
     await sendMessage(ctx, `🐞 Status інформація:\n\n${info}`);
   });
+
+  bot.command("roll", async (ctx) => {
+    const result = Math.floor(Math.random() * 6) + 1;
+    await sendMessage(ctx, `🎲 Твій результат: *${result}*`);
+  });
 }
