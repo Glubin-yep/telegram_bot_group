@@ -10,6 +10,7 @@ import { registerGeneralCommands } from "./generalCommands";
 import { sendMeme } from "./meme";
 import { sendFortune } from "./fortunes";
 import { sendHoroscopes } from "./horoscopes";
+import { registerAnalysisCommand } from "./runAnalysis";
 
 export default function BotCommandInitializer(bot: Telegraf) {
   registerGeneralCommands(bot);
@@ -23,4 +24,5 @@ export default function BotCommandInitializer(bot: Telegraf) {
   sendMeme(bot);
   sendFortune(bot);
   sendHoroscopes(bot);
+  registerAnalysisCommand(bot);
 }
