@@ -5,7 +5,7 @@ import { User } from "../entities/User";
 import cron from "node-cron";
 
 export async function scheduleDailyHoroscopes(bot: Telegraf) {
-    cron.schedule("0 9 * * *", async () => {
+    cron.schedule("0 10 * * *", async () => {
         console.log("Запускаємо щоденну розсилку гороскопів...");
 
         const userRepo = AppDataSource.getRepository(User);
@@ -17,8 +17,14 @@ export async function scheduleDailyHoroscopes(bot: Telegraf) {
 
             const personalizedText = `🔮 Привіт, @${username}!\n\nВаш щоденний гороскоп:\n${horoscope}`;
 
+            const broadcastChatId = process.env.PRIMARY_CHAT_ID;
+            if (!broadcastChatId) {
+                console.error("PRIMARY_CHAT_ID is not set in .env. Cannot send horoscopes.");
+                continue;
+            }
+
             try {
-                await bot.telegram.sendMessage("-1002779239533", personalizedText);
+                await bot.telegram.sendMessage(broadcastChatId, personalizedText);
             } catch (err) {
                 console.error(`Не вдалося надіслати користувачу ${user.telegramId}:`, err);
             }
